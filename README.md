@@ -91,8 +91,8 @@ npm run preview
 
 ### 🎁 Bonus Features Included
 1. **5-Second Undo Toast:** When a task is deleted, a non-intrusive bottom-right toast appears with an **Undo** button. Restores the task to its exact position if clicked within 5 seconds.
-2. **Dark / Light Theme Toggle:** Accessible theme toggle saved to `localStorage` (`hyperapps_theme`) and synced with system preferences.
-3. **Unit Tests (Vitest):** Pure utility test suite in `src/utils/taskUtils.test.js` validating all starter data constraints and sorting permutations.
+2. **Dark / Light Theme Toggle:** Accessible theme toggle saved to `localStorage` (`hyperapps_theme`) and synced with system preferences, configured with Tailwind CSS v4 `@custom-variant dark` for full `.dark` class selector support.
+3. **Automated Tests (Vitest + React Testing Library):** Comprehensive test suite across 4 test files (`taskUtils.test.js`, `TaskControls.test.jsx`, `TaskInput.test.jsx`, `useTheme.test.js`) validating starter data constraints, filter/sort logic, component interaction, and theme switching.
 4. **Accessibility (a11y):** Semantic HTML5 (`<header>`, `<main>`, `<section>`, `<aside>`), real `<button>` elements, ARIA labels, live regions, and visible keyboard focus rings.
 
 ---
