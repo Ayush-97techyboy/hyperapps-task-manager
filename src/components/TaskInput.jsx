@@ -43,7 +43,7 @@ export function TaskInput({ onAddTask }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-800 shadow-sm transition-all"
+      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm transition-all"
     >
       <div className="flex flex-col gap-3">
         {/* Main title input */}

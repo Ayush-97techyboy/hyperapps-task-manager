@@ -34,7 +34,7 @@ export function TaskControls({
                 className={`flex-1 sm:flex-initial px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all cursor-pointer ${
                   isActive
                     ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-xs font-semibold'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-750 dark:hover:text-gray-200'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                 }`}
               >
                 {tab}
@@ -71,7 +71,7 @@ export function TaskControls({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search tasks..."
-            className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {searchQuery && (
             <button
@@ -98,7 +98,7 @@ export function TaskControls({
             id="sort-tasks-select"
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
-            className="flex-1 sm:flex-initial px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+            className="flex-1 sm:flex-initial px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
           >
             <option value="default">Default</option>
             <option value="dueDate">Due Date (Soonest first)</option>

@@ -25,7 +25,7 @@ export function Header({ theme, toggleTheme, totalCount, completedCount }) {
           aria-label={
             theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
           }
-          className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-xs"
+          className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer shadow-xs"
         >
           {theme === 'dark' ? (
             <Sun className="w-5 h-5 text-amber-400" aria-hidden="true" />

@@ -77,7 +77,7 @@ export function TaskItem({
       className={`group flex flex-col p-3.5 sm:p-4 rounded-xl border transition-all ${
         task.completed
           ? 'bg-gray-50/60 dark:bg-gray-900/40 border-gray-200 dark:border-gray-800/80 opacity-75'
-          : 'bg-white dark:bg-gray-850 border-gray-200 dark:border-gray-800 shadow-xs hover:border-gray-300 dark:hover:border-gray-700'
+          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-xs hover:border-gray-300 dark:hover:border-gray-600'
       }`}
     >
       <div className="flex items-start gap-3">

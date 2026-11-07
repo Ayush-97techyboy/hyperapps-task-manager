@@ -24,7 +24,7 @@ export function ConfirmDialog({ isOpen, task, onConfirm, onCancel }) {
       aria-labelledby="dialog-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn"
     >
-      <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-850 border border-gray-200 dark:border-gray-750 p-5 sm:p-6 shadow-xl transition-all">
+      <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 sm:p-6 shadow-xl transition-all">
         <div className="flex items-center gap-3 text-red-600 dark:text-red-400 mb-3">
           <div className="p-2 rounded-xl bg-red-100 dark:bg-red-950/60">
             <AlertTriangle className="w-5 h-5" />
@@ -46,7 +46,7 @@ export function ConfirmDialog({ isOpen, task, onConfirm, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors cursor-pointer"
+            className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
           >
             Cancel
           </button>
