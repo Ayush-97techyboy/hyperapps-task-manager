@@ -2,9 +2,25 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 
 const TASKS_STORAGE_KEY = 'hyperapps_tasks';
 
+function getInitialTasks() {
+  try {
+    const cached = localStorage.getItem(TASKS_STORAGE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch {
+    localStorage.removeItem(TASKS_STORAGE_KEY);
+  }
+  return null;
+}
+
 export function useTasks() {
-  const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [initialData] = useState(getInitialTasks);
+  const [tasks, setTasks] = useState(() => initialData || []);
+  const [isLoading, setIsLoading] = useState(() => initialData === null);
   const [error, setError] = useState(null);
 
   // 5-second Undo state tracking
@@ -27,29 +43,14 @@ export function useTasks() {
     }
   }, [tasks, isLoading, error]);
 
-  // Fetch logic with retry capability
-  const loadTasks = useCallback(async () => {
+  // Fetch tasks from tasks.json (used on first load if no localStorage cache, or on retry)
+  const fetchTasksFromServer = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-
-    // 1. Check if tasks exist in localStorage
-    const cached = localStorage.getItem(TASKS_STORAGE_KEY);
-    if (cached) {
-      try {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed)) {
-          setTasks(parsed);
-          setIsLoading(false);
-          return;
-        }
-      } catch {
-        localStorage.removeItem(TASKS_STORAGE_KEY);
-      }
-    }
-
-    // 2. Fetch tasks.json if no valid cache exists
     try {
-      const response = await fetch('/tasks.json');
+      const baseUrl = import.meta.env.BASE_URL || '/';
+      const fetchUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}tasks.json`;
+      const response = await fetch(fetchUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -66,9 +67,43 @@ export function useTasks() {
     }
   }, []);
 
+  // Initial load: fetch from server only if no cache was found on mount
   useEffect(() => {
-    loadTasks();
-  }, [loadTasks]);
+    if (initialData !== null) return;
+
+    let isCancelled = false;
+
+    async function initialFetch() {
+      try {
+        const baseUrl = import.meta.env.BASE_URL || '/';
+        const fetchUrl = `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}tasks.json`;
+        const response = await fetch(fetchUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid JSON format: expected an array of tasks.');
+        }
+        if (!isCancelled) {
+          setTasks(data);
+          localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(data));
+          setIsLoading(false);
+        }
+      } catch (err) {
+        if (!isCancelled) {
+          setError(err.message || 'Failed to load tasks from server.');
+          setIsLoading(false);
+        }
+      }
+    }
+
+    initialFetch();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [initialData]);
 
   // Clean up any pending undo timer on unmount
   useEffect(() => {
@@ -170,7 +205,7 @@ export function useTasks() {
     tasks,
     isLoading,
     error,
-    retryFetch: loadTasks,
+    retryFetch: fetchTasksFromServer,
     addTask,
     toggleTask,
     editTaskTitle,
