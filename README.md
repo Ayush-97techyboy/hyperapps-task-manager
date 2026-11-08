@@ -6,7 +6,16 @@ A responsive, accessible, single-page Task Manager application built with **Reac
 
 ## 🚀 Live Demo & Repository
 - **GitHub Repository:** Public link to this repository
+- **Live Preview:** Available via Vercel / Netlify / `http://localhost:5173/`
 - **Stack:** React 19, Vite, Tailwind CSS v4, Lucide React, Vitest
+
+---
+
+## 📸 Screenshots
+
+| Desktop View (1280px) | Mobile View (375px) |
+| :---: | :---: |
+| ![Desktop Screenshot](screenshots/desktop.png) | ![Mobile Screenshot](screenshots/mobile.png) |
 
 ---
 
