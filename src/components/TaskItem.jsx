@@ -10,9 +10,9 @@ import {
 import { formatDueDate, isTaskOverdue } from '../utils/taskUtils';
 
 const PRIORITY_BADGES = {
-  High: 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-900',
-  Medium: 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-900',
-  Low: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900',
+  High: 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 border-rose-200 dark:border-rose-900/60',
+  Medium: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200 dark:border-amber-900/60',
+  Low: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900/60',
 };
 
 export function TaskItem({
@@ -74,15 +74,18 @@ export function TaskItem({
 
   return (
     <div
-      className={`group flex flex-col p-3.5 sm:p-4 rounded-xl border transition-all ${
+      className={`group relative flex flex-col p-3.5 sm:p-4 rounded-2xl border transition-all ${
         task.completed
-          ? 'bg-gray-50/60 dark:bg-gray-900/40 border-gray-200 dark:border-gray-800/80 opacity-75'
-          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-xs hover:border-gray-300 dark:hover:border-gray-600'
+          ? 'bg-slate-50/50 dark:bg-slate-900/40 border-slate-200/60 dark:border-slate-800/60 opacity-70'
+          : 'bg-white dark:bg-slate-850/90 border-slate-200/90 dark:border-slate-700/80 shadow-xs hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
       }`}
     >
-      <div className="flex items-start gap-3">
-        {/* Accessible Checkbox */}
-        <div className="pt-0.5 shrink-0">
+      <div className="flex items-start gap-3.5">
+        {/* Circular Checkbox (Inspired by Pinterest / iOS checklist style) */}
+        <label
+          htmlFor={`task-chk-${task.id}`}
+          className="pt-0.5 relative flex items-center justify-center cursor-pointer select-none shrink-0"
+        >
           <input
             id={`task-chk-${task.id}`}
             type="checkbox"
@@ -91,11 +94,20 @@ export function TaskItem({
             aria-label={`Mark "${task.title}" as ${
               task.completed ? 'incomplete' : 'complete'
             }`}
-            className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 rounded-md border-gray-300 dark:border-gray-600 focus:ring-blue-500 cursor-pointer"
+            className="sr-only"
           />
-        </div>
+          <div
+            className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
+              task.completed
+                ? 'bg-sky-500 border-sky-500 text-white shadow-xs'
+                : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 group-hover:border-sky-400'
+            }`}
+          >
+            {task.completed && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+          </div>
+        </label>
 
-        {/* Content area: Title or Edit Input */}
+        {/* Content area: Title, Details, Metadata */}
         <div className="flex-1 min-w-0">
           {isEditing ? (
             <div className="flex flex-col gap-1.5">
@@ -110,70 +122,84 @@ export function TaskItem({
                   }}
                   onKeyDown={handleKeyDown}
                   aria-label="Edit task title"
-                  className="w-full px-2.5 py-1.5 text-sm rounded-lg border border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-1.5 text-sm font-medium rounded-xl border border-sky-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
                 <button
                   type="button"
                   onClick={handleSaveEdit}
                   aria-label="Save title"
-                  className="p-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 cursor-pointer shrink-0"
+                  className="p-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600 cursor-pointer shrink-0 shadow-xs"
                 >
-                  <Check className="w-4 h-4" />
+                  <Check className="w-4 h-4 stroke-[2.5]" />
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelEdit}
                   aria-label="Cancel editing"
-                  className="p-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer shrink-0"
+                  className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer shrink-0"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 stroke-[2.5]" />
                 </button>
               </div>
               {editError && (
-                <p className="text-xs text-red-500 font-medium">
+                <p className="text-xs text-rose-500 font-semibold">
                   {editError}
                 </p>
               )}
-              <span className="text-[11px] text-gray-400">
+              <span className="text-[11px] text-slate-400">
                 Press Enter to save · Escape to cancel
               </span>
             </div>
           ) : (
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
+              {/* Task Title */}
               <span
                 onClick={handleStartEdit}
                 title="Click to edit title"
-                className={`text-sm sm:text-base font-medium break-words cursor-pointer select-text ${
+                className={`text-sm sm:text-base font-semibold tracking-tight break-words cursor-pointer select-text transition-colors ${
                   task.completed
-                    ? 'line-through text-gray-400 dark:text-gray-500'
-                    : 'text-gray-900 dark:text-gray-100'
+                    ? 'line-through text-slate-400 dark:text-slate-500'
+                    : 'text-slate-900 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-400'
                 }`}
               >
                 {task.title}
               </span>
 
+              {/* Optional Description / Sub-note (if present) */}
+              {task.description && (
+                <p
+                  className={`text-xs break-words line-clamp-2 ${
+                    task.completed
+                      ? 'text-slate-400/80 dark:text-slate-500/80 line-through'
+                      : 'text-slate-500 dark:text-slate-400'
+                  }`}
+                >
+                  {task.description}
+                </p>
+              )}
+
               {/* Metadata Badges: Priority + Due Date + Overdue */}
-              <div className="flex flex-wrap items-center gap-2 text-xs">
+              <div className="flex flex-wrap items-center gap-2 pt-0.5 text-xs">
                 {/* Priority Badge */}
                 <span
-                  className={`px-2 py-0.5 rounded-md font-semibold border ${
+                  className={`px-2 py-0.5 rounded-lg text-[11px] font-bold border tracking-wide uppercase ${
                     PRIORITY_BADGES[task.priority] || PRIORITY_BADGES.Medium
                   }`}
                 >
                   {task.priority}
                 </span>
 
-                {/* Due Date */}
+                {/* Due Date with Calendar Icon */}
                 {task.dueDate && (
-                  <span className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                    <Calendar className="w-3.5 h-3.5" />
+                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    <Calendar className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                     {formatDueDate(task.dueDate)}
                   </span>
                 )}
 
                 {/* Overdue Badge */}
                 {isOverdue && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-950/80 dark:text-red-300 border border-red-300 dark:border-red-900 animate-pulse">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold bg-rose-100 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 border border-rose-300 dark:border-rose-900 animate-pulse">
                     <AlertTriangle className="w-3 h-3" />
                     Overdue
                   </span>
@@ -190,17 +216,17 @@ export function TaskItem({
               type="button"
               onClick={handleStartEdit}
               aria-label={`Edit task "${task.title}"`}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              <Edit2 className="w-4 h-4" />
+              <Edit2 className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
               onClick={() => onRequestDelete(task)}
               aria-label={`Delete task "${task.title}"`}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="w-3.5 h-3.5" />
             </button>
           </div>
         )}

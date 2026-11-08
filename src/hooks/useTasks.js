@@ -115,7 +115,7 @@ export function useTasks() {
   }, []);
 
   // Task Operations
-  const addTask = useCallback(({ title, priority = 'Medium', dueDate = null }) => {
+  const addTask = useCallback(({ title, description = '', priority = 'Medium', dueDate = null }) => {
     const trimmedTitle = title.trim();
     if (!trimmedTitle) {
       return { success: false, error: 'Task title cannot be blank.' };
@@ -124,6 +124,7 @@ export function useTasks() {
     const newTask = {
       id: Date.now(),
       title: trimmedTitle,
+      description: description ? description.trim() : '',
       priority: priority || 'Medium',
       dueDate: dueDate || null,
       completed: false,

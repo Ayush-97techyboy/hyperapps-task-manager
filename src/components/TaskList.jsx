@@ -12,13 +12,17 @@ export function TaskList({
 }) {
   if (tasks.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/30">
+      <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-3xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
         {currentFilter === 'Completed' ? (
-          <CheckCircle2 className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" />
+          <div className="p-3.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 mb-3">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
         ) : (
-          <ClipboardList className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" />
+          <div className="p-3.5 rounded-full bg-sky-50 dark:bg-sky-950/40 text-sky-500 mb-3">
+            <ClipboardList className="w-8 h-8" />
+          </div>
         )}
-        <h3 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">
+        <h3 className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-200">
           {searchQuery
             ? 'No tasks found'
             : currentFilter === 'Completed'
@@ -27,14 +31,14 @@ export function TaskList({
             ? 'No active tasks left'
             : 'No tasks yet'}
         </h3>
-        <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-1 max-w-xs">
+        <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-500 mt-1 max-w-xs font-medium">
           {searchQuery
             ? `No tasks match "${searchQuery}". Try a different keyword.`
             : currentFilter === 'Completed'
-            ? 'Mark a task as complete and it will appear here.'
+            ? 'Complete a task and it will appear here.'
             : currentFilter === 'Active'
-            ? 'Great job! You have cleared all pending tasks.'
-            : 'Add your first task above to get organized.'}
+            ? 'Nice work! You have finished all active tasks.'
+            : 'Add your first task above to get started.'}
         </p>
       </div>
     );

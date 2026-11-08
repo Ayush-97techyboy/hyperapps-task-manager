@@ -55,9 +55,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors py-6 sm:py-12 px-4 sm:px-6">
-      <main className="w-full max-w-2xl mx-auto flex flex-col gap-6">
-        {/* Header with Dark Mode Toggle & Stats */}
+    <div className="min-h-screen bg-slate-100/70 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors py-4 sm:py-10 px-3 sm:px-6">
+      <main className="w-full max-w-xl mx-auto bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl sm:rounded-[36px] p-5 sm:p-7 shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-5">
+        {/* Header with Dark Mode Toggle, Pull Handle & Stats */}
         <Header
           theme={theme}
           toggleTheme={toggleTheme}
@@ -74,7 +74,7 @@ export default function App() {
         ) : error ? (
           <ErrorState error={error} onRetry={retryFetch} />
         ) : (
-          <section aria-label="Task Management Controls and List" className="flex flex-col gap-4">
+          <section aria-label="Task Management Controls and List" className="flex flex-col gap-3.5">
             <TaskControls
               currentFilter={currentFilter}
               onFilterChange={setCurrentFilter}

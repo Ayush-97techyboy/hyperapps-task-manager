@@ -74,9 +74,13 @@ export function filterTasks(tasks, filter = 'All', searchQuery = '') {
     if (filter === 'Active' && task.completed) return false;
     if (filter === 'Completed' && !task.completed) return false;
 
-    // 2. Search Query (case-insensitive matching on title)
-    if (query && !task.title.toLowerCase().includes(query)) {
-      return false;
+    // 2. Search Query (case-insensitive matching on title or optional description)
+    if (query) {
+      const titleMatch = task.title.toLowerCase().includes(query);
+      const descMatch = Boolean(task.description && task.description.toLowerCase().includes(query));
+      if (!titleMatch && !descMatch) {
+        return false;
+      }
     }
 
     return true;
