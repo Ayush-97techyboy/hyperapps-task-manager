@@ -70,69 +70,97 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#EDF2F7] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors py-3 sm:py-8 px-2.5 sm:px-4">
-      {/* Responsive Main Container matching the Mobile Card Reference */}
-      <main className="w-full max-w-xl mx-auto bg-white dark:bg-[#131B26] rounded-3xl sm:rounded-[36px] p-5 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.06)] dark:shadow-black/50 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-4 sm:gap-5 transition-all">
-        {/* Header with Dark Mode Toggle, Pull Handle & Stats */}
-        <Header
-          theme={theme}
-          toggleTheme={toggleTheme}
-          totalCount={tasks.length}
-          completedCount={completedCount}
-        />
-
-        {/* Task Creation Input Form */}
-        <div ref={inputContainerRef}>
-          <TaskInput onAddTask={addTask} />
-        </div>
-
-        {/* Loading / Error / Main Task List Views */}
+    <div className="min-h-screen bg-[#EDF2F7] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors py-3 sm:py-6 lg:py-8 px-3 sm:px-6 lg:px-8 xl:px-12">
+      {/* 
+        Fully fledged responsive container:
+        • Mobile (< 768px): Centered single-column matching the mobile reference card
+        • Tablet (768px - 959px): Fluid comfortable layout
+        • Desktop (960px - 2560px): Stretched 2-column workspace layout filling wide screens
+      */}
+      <main className="w-full max-w-xl min-[960px]:max-w-6xl xl:max-w-7xl 2xl:max-w-[1800px] mx-auto transition-all">
+        {/* Loading / Error States */}
         {isLoading ? (
-          <LoadingState />
+          <div className="bg-white dark:bg-[#131B26] rounded-3xl p-8 shadow-xl border border-slate-200/80 dark:border-slate-800">
+            <LoadingState />
+          </div>
         ) : error ? (
-          <ErrorState error={error} onRetry={retryFetch} />
+          <div className="bg-white dark:bg-[#131B26] rounded-3xl p-8 shadow-xl border border-slate-200/80 dark:border-slate-800">
+            <ErrorState error={error} onRetry={retryFetch} />
+          </div>
         ) : (
-          <section aria-label="Task Management Controls and List" className="flex flex-col gap-4">
-            {/* Filter Tabs, Search & Sort */}
-            <TaskControls
-              currentFilter={currentFilter}
-              onFilterChange={setCurrentFilter}
-              activeCount={activeCount}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-            />
+          /* Desktop Split Grid (960px - 2560px) & Mobile Stack (< 960px) */
+          <div className="flex flex-col min-[960px]:grid min-[960px]:grid-cols-12 gap-5 lg:gap-7 items-start">
+            
+            {/* Left Column on Desktop / Top Section on Mobile: Header, Creator, Goals */}
+            <aside 
+              aria-label="Task Management Panel" 
+              className="w-full min-[960px]:col-span-5 xl:col-span-4 min-[960px]:sticky min-[960px]:top-6 flex flex-col gap-4 sm:gap-5"
+            >
+              {/* Main Card Shell for Left Panel on Desktop, or Entire Screen on Mobile */}
+              <div className="bg-white dark:bg-[#131B26] rounded-3xl sm:rounded-[36px] p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.05)] dark:shadow-black/50 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-4">
+                {/* Header with Dark Mode Toggle, Pull Handle & Stats */}
+                <Header
+                  theme={theme}
+                  toggleTheme={toggleTheme}
+                  totalCount={tasks.length}
+                  completedCount={completedCount}
+                />
 
-            {/* Task Items List with Drag Handles, Squircle Checkboxes & Overdue */}
-            <TaskList
-              tasks={displayedTasks}
-              onToggle={toggleTask}
-              onEditTitle={editTaskTitle}
-              onRequestDelete={(task) => setTaskToDelete(task)}
-              currentFilter={currentFilter}
-              searchQuery={searchQuery}
-            />
+                {/* Task Creation Input Form */}
+                <div ref={inputContainerRef}>
+                  <TaskInput onAddTask={addTask} />
+                </div>
 
-            {/* "Your Goals" Category / Priority Section (matching screenshot) */}
-            <GoalsSection
-              activeCount={activeCount}
-              completedCount={completedCount}
-              onSelectFilter={setCurrentFilter}
-              onSelectSort={setSortBy}
-              onOpenAdd={handleFocusInput}
-            />
-          </section>
+                {/* "Your Goals" Category / Priority Section (matching screenshot) */}
+                <GoalsSection
+                  activeCount={activeCount}
+                  completedCount={completedCount}
+                  onSelectFilter={setCurrentFilter}
+                  onSelectSort={setSortBy}
+                  onOpenAdd={handleFocusInput}
+                />
+              </div>
+            </aside>
+
+            {/* Right Column on Desktop / Bottom Section on Mobile: Controls, Tasks, Dock */}
+            <section 
+              aria-label="Tasks List and Controls" 
+              className="w-full min-[960px]:col-span-7 xl:col-span-8 flex flex-col gap-4"
+            >
+              <div className="bg-white dark:bg-[#131B26] rounded-3xl sm:rounded-[36px] p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.05)] dark:shadow-black/50 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-4">
+                {/* Filter Tabs, Search & Sort */}
+                <TaskControls
+                  currentFilter={currentFilter}
+                  onFilterChange={setCurrentFilter}
+                  activeCount={activeCount}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  sortBy={sortBy}
+                  onSortChange={setSortBy}
+                />
+
+                {/* Task Items List with Drag Handles, Squircle Checkboxes & Overdue */}
+                <TaskList
+                  tasks={displayedTasks}
+                  onToggle={toggleTask}
+                  onEditTitle={editTaskTitle}
+                  onRequestDelete={(task) => setTaskToDelete(task)}
+                  currentFilter={currentFilter}
+                  searchQuery={searchQuery}
+                />
+
+                {/* Bottom Toolbar & Action Bar (matching screenshot) */}
+                <BottomToolbar
+                  currentFilter={currentFilter}
+                  onFilterChange={setCurrentFilter}
+                  sortBy={sortBy}
+                  onSortChange={setSortBy}
+                  onOpenAdd={handleFocusInput}
+                />
+              </div>
+            </section>
+          </div>
         )}
-
-        {/* Bottom Toolbar & Action Bar (matching screenshot) */}
-        <BottomToolbar
-          currentFilter={currentFilter}
-          onFilterChange={setCurrentFilter}
-          sortBy={sortBy}
-          onSortChange={setSortBy}
-          onOpenAdd={handleFocusInput}
-        />
       </main>
 
       {/* Delete Confirmation Modal */}

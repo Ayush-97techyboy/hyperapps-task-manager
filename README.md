@@ -11,11 +11,11 @@ A responsive, accessible, single-page Task Manager application built with **Reac
 
 ---
 
-## 📸 Screenshots
+## 📸 Responsive Screenshots
 
-| Desktop View (1280px) | Mobile View (375px) |
-| :---: | :---: |
-| ![Desktop Screenshot](screenshots/desktop.png) | ![Mobile Screenshot](screenshots/mobile.png) |
+| Desktop View (960px – 2560px) | Tablet View (768px) | Mobile View (375px) |
+| :---: | :---: | :---: |
+| ![Desktop Screenshot](screenshots/desktop.png) | ![Tablet Screenshot](screenshots/tablet.png) | ![Mobile Screenshot](screenshots/mobile.png) |
 
 ---
 
