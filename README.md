@@ -142,6 +142,19 @@ src/
 
 ---
 
+## 🔍 What is Missing or Broken
+
+- **Core Requirements:** **Nothing is missing or broken.** All 9 must-have requirements, starter data checks, and all bonus requirements are fully implemented, functional, and backed by automated tests.
+- **Edge Cases Handled:**
+  - Empty / whitespace-only task titles show immediate validation feedback.
+  - Deletions are safely guarded by a confirmation dialog with a 5-second undo toast.
+  - Sorting and filtering update reactively without mutating original state.
+  - Responsive design tested down to 375px mobile viewports.
+- **Out of Scope (By Design):**
+  - No backend or database (per assessment rules: React state + `localStorage` only).
+
+---
+
 ## ⏱️ Time Spent & Assumptions
 - **Time Spent:** ~2.5 hours total (scaffolding, component separation, unit testing, styling, and documentation).
 - **Assumptions:** 
