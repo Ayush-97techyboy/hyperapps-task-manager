@@ -5,7 +5,7 @@ A responsive, accessible, single-page Task Manager application built with **Reac
 ---
 
 ## 🚀 Live Demo & Repository
-- **GitHub Repository:** Public link to this repository
+- **GitHub Repository:** [https://github.com/Ayush-97techyboy/hyperapps-task-manager](https://github.com/Ayush-97techyboy/hyperapps-task-manager)
 - **Live Preview:** Available via Vercel / Netlify / `http://localhost:5173/`
 - **Stack:** React 19, Vite, Tailwind CSS v4, Lucide React, Vitest
 
