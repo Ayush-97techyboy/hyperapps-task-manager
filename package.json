@@ -11,11 +11,13 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@sentry/react": "^11.15.0",
     "lucide-react": "^1.70.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@sentry/bundler-plugins": "^11.15.0",
     "@tailwindcss/vite": "^4.3.5",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",

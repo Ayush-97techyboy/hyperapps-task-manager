@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment and Sentry Config Files
+.env.local
+.env.*.local
+.env.sentry-build-plugin
