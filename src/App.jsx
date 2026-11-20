@@ -120,9 +120,6 @@ export default function App() {
                   onOpenAdd={handleFocusInput}
                 />
               </div>
-              <button onClick={() => { throw new Error("Sentry Netlify Test Error!"); }}>
-  Test Sentry Error
-</button>
             </aside>
 
             {/* Right Column on Desktop / Bottom Section on Mobile: Controls, Tasks, Dock */}
