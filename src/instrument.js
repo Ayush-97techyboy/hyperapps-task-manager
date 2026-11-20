@@ -9,7 +9,8 @@ Sentry.init({
     Sentry.replayIntegration(),
     // Enables User Feedback widget
     Sentry.feedbackIntegration({
-      colorScheme: "system",
+      colorScheme: "dark",
+      autoInject: false,
     }),
   ],
 

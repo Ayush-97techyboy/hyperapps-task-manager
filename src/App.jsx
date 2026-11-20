@@ -1,17 +1,18 @@
-import React, { useState, useMemo, useRef } from 'react';
-import { useTasks } from './hooks/useTasks';
-import { useTheme } from './hooks/useTheme';
-import { filterTasks, sortTasks } from './utils/taskUtils';
-import { Header } from './components/Header';
-import { TaskInput } from './components/TaskInput';
-import { TaskControls } from './components/TaskControls';
-import { TaskList } from './components/TaskList';
-import { GoalsSection } from './components/GoalsSection';
-import { BottomToolbar } from './components/BottomToolbar';
-import { ConfirmDialog } from './components/ConfirmDialog';
-import { UndoToast } from './components/UndoToast';
-import { LoadingState } from './components/LoadingState';
-import { ErrorState } from './components/ErrorState';
+import React, { useState, useMemo, useRef } from "react";
+import { useTasks } from "./hooks/useTasks";
+import { useTheme } from "./hooks/useTheme";
+import { filterTasks, sortTasks } from "./utils/taskUtils";
+import { Header } from "./components/Header";
+import { TaskInput } from "./components/TaskInput";
+import { TaskControls } from "./components/TaskControls";
+import { TaskList } from "./components/TaskList";
+import { GoalsSection } from "./components/GoalsSection";
+import { BottomToolbar } from "./components/BottomToolbar";
+import { ConfirmDialog } from "./components/ConfirmDialog";
+import { UndoToast } from "./components/UndoToast";
+import { LoadingState } from "./components/LoadingState";
+import { ErrorState } from "./components/ErrorState";
+import * as Sentry from "@sentry/react";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -30,9 +31,9 @@ export default function App() {
   } = useTasks();
 
   // Filter, Search, and Sort state
-  const [currentFilter, setCurrentFilter] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('default');
+  const [currentFilter, setCurrentFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("default");
 
   // Confirmation modal state
   const [taskToDelete, setTaskToDelete] = useState(null);
@@ -61,12 +62,20 @@ export default function App() {
 
   const handleFocusInput = () => {
     if (inputContainerRef.current) {
-      inputContainerRef.current.scrollIntoView({ behavior: 'smooth' });
-      const textInput = inputContainerRef.current.querySelector('input[type="text"]');
+      inputContainerRef.current.scrollIntoView({ behavior: "smooth" });
+      const textInput =
+        inputContainerRef.current.querySelector('input[type="text"]');
       if (textInput) {
         textInput.focus();
       }
     }
+  };
+
+  const handleOpenFeedback = async () => {
+    const feedback = Sentry.getFeedback();
+    const form = await feedback?.createForm();
+    form?.appendToDom();
+    form?.open();
   };
 
   return (
@@ -90,10 +99,9 @@ export default function App() {
         ) : (
           /* Desktop Split Grid (960px - 2560px) & Mobile Stack (< 960px) */
           <div className="flex flex-col min-[960px]:grid min-[960px]:grid-cols-12 gap-5 lg:gap-7 items-start">
-            
             {/* Left Column on Desktop / Top Section on Mobile: Header, Creator, Goals */}
-            <aside 
-              aria-label="Task Management Panel" 
+            <aside
+              aria-label="Task Management Panel"
               className="w-full min-[960px]:col-span-5 xl:col-span-4 min-[960px]:sticky min-[960px]:top-6 flex flex-col gap-4 sm:gap-5"
             >
               {/* Main Card Shell for Left Panel on Desktop, or Entire Screen on Mobile */}
@@ -104,6 +112,7 @@ export default function App() {
                   toggleTheme={toggleTheme}
                   totalCount={tasks.length}
                   completedCount={completedCount}
+                  onOpenFeedback={handleOpenFeedback}
                 />
 
                 {/* Task Creation Input Form */}
@@ -123,8 +132,8 @@ export default function App() {
             </aside>
 
             {/* Right Column on Desktop / Bottom Section on Mobile: Controls, Tasks, Dock */}
-            <section 
-              aria-label="Tasks List and Controls" 
+            <section
+              aria-label="Tasks List and Controls"
               className="w-full min-[960px]:col-span-7 xl:col-span-8 flex flex-col gap-4"
             >
               <div className="bg-white dark:bg-[#131B26] rounded-3xl sm:rounded-[36px] p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.05)] dark:shadow-black/50 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-4">
